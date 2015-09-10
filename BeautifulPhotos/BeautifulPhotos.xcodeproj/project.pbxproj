@@ -11,6 +11,13 @@
 		6D34B4E71B9F23460099A057 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D34B4E51B9F23460099A057 /* LaunchScreen.xib */; };
 		6D34B4F31B9F23460099A057 /* BeautifulPhotosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D34B4F21B9F23460099A057 /* BeautifulPhotosTests.swift */; };
 		6D34B5031B9F240E0099A057 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D34B4FE1B9F240E0099A057 /* AppDelegate.swift */; };
+		6D34B5051B9F29D00099A057 /* MyCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D34B5041B9F29D00099A057 /* MyCollectionViewController.swift */; };
+		6D34B5071B9F2FC60099A057 /* MyTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D34B5061B9F2FC60099A057 /* MyTitleView.swift */; };
+		6D34B5091BA04FA20099A057 /* MyCollectionHeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D34B5081BA04FA20099A057 /* MyCollectionHeaderReusableView.swift */; };
+		6D34B50B1BA04FB60099A057 /* MyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D34B50A1BA04FB60099A057 /* MyCollectionViewCell.swift */; };
+		6D34B50D1BA053340099A057 /* MyImageDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D34B50C1BA053340099A057 /* MyImageDataModel.swift */; };
+		6D34B50F1BA053BD0099A057 /* MyNetworkOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D34B50E1BA053BD0099A057 /* MyNetworkOperation.swift */; };
+		6D34B5191BA085AE0099A057 /* baidu_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D34B5181BA085AE0099A057 /* baidu_logo.png */; };
 		80E30BBCCC7F0FF400EADB8A /* Pods_BeautifulPhotos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDD1F9D80A5944BFED3F6E60 /* Pods_BeautifulPhotos.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -34,6 +41,13 @@
 		6D34B4F11B9F23460099A057 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6D34B4F21B9F23460099A057 /* BeautifulPhotosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeautifulPhotosTests.swift; sourceTree = "<group>"; };
 		6D34B4FE1B9F240E0099A057 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		6D34B5041B9F29D00099A057 /* MyCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCollectionViewController.swift; sourceTree = "<group>"; };
+		6D34B5061B9F2FC60099A057 /* MyTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTitleView.swift; sourceTree = "<group>"; };
+		6D34B5081BA04FA20099A057 /* MyCollectionHeaderReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCollectionHeaderReusableView.swift; sourceTree = "<group>"; };
+		6D34B50A1BA04FB60099A057 /* MyCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCollectionViewCell.swift; sourceTree = "<group>"; };
+		6D34B50C1BA053340099A057 /* MyImageDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyImageDataModel.swift; sourceTree = "<group>"; };
+		6D34B50E1BA053BD0099A057 /* MyNetworkOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyNetworkOperation.swift; sourceTree = "<group>"; };
+		6D34B5181BA085AE0099A057 /* baidu_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = baidu_logo.png; sourceTree = "<group>"; };
 		8365AD9D6E01E119FFD23F25 /* Pods-BeautifulPhotos.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BeautifulPhotos.release.xcconfig"; path = "Pods/Target Support Files/Pods-BeautifulPhotos/Pods-BeautifulPhotos.release.xcconfig"; sourceTree = "<group>"; };
 		CDD1F9D80A5944BFED3F6E60 /* Pods_BeautifulPhotos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BeautifulPhotos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -93,6 +107,7 @@
 				6D34B4FD1B9F240E0099A057 /* Main */,
 				6D34B4FF1B9F240E0099A057 /* ShowPhotos */,
 				6D34B4E31B9F23460099A057 /* Images.xcassets */,
+				6D34B5101BA07FDA0099A057 /* Resources */,
 				6D34B4E51B9F23460099A057 /* LaunchScreen.xib */,
 				6D34B4DA1B9F23460099A057 /* Supporting Files */,
 			);
@@ -127,6 +142,7 @@
 		6D34B4FC1B9F240E0099A057 /* LibraryAPI */ = {
 			isa = PBXGroup;
 			children = (
+				6D34B50E1BA053BD0099A057 /* MyNetworkOperation.swift */,
 			);
 			path = LibraryAPI;
 			sourceTree = "<group>";
@@ -152,6 +168,7 @@
 		6D34B5001B9F240E0099A057 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				6D34B5041B9F29D00099A057 /* MyCollectionViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -159,6 +176,7 @@
 		6D34B5011B9F240E0099A057 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				6D34B50C1BA053340099A057 /* MyImageDataModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -166,8 +184,27 @@
 		6D34B5021B9F240E0099A057 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6D34B5061B9F2FC60099A057 /* MyTitleView.swift */,
+				6D34B5081BA04FA20099A057 /* MyCollectionHeaderReusableView.swift */,
+				6D34B50A1BA04FB60099A057 /* MyCollectionViewCell.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		6D34B5101BA07FDA0099A057 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6D34B5111BA07FDA0099A057 /* images */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		6D34B5111BA07FDA0099A057 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				6D34B5181BA085AE0099A057 /* baidu_logo.png */,
+			);
+			path = images;
 			sourceTree = "<group>";
 		};
 		ACDF3386CAA8E95A765AE1F7 /* Frameworks */ = {
@@ -263,6 +300,7 @@
 			files = (
 				6D34B4E71B9F23460099A057 /* LaunchScreen.xib in Resources */,
 				6D34B4E41B9F23460099A057 /* Images.xcassets in Resources */,
+				6D34B5191BA085AE0099A057 /* baidu_logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,6 +366,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D34B5091BA04FA20099A057 /* MyCollectionHeaderReusableView.swift in Sources */,
+				6D34B50D1BA053340099A057 /* MyImageDataModel.swift in Sources */,
+				6D34B50B1BA04FB60099A057 /* MyCollectionViewCell.swift in Sources */,
+				6D34B5071B9F2FC60099A057 /* MyTitleView.swift in Sources */,
+				6D34B5051B9F29D00099A057 /* MyCollectionViewController.swift in Sources */,
+				6D34B50F1BA053BD0099A057 /* MyNetworkOperation.swift in Sources */,
 				6D34B5031B9F240E0099A057 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
