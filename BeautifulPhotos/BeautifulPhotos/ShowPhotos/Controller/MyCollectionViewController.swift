@@ -17,12 +17,17 @@ class MyCollectionViewController: UICollectionViewController, UICollectionViewDe
     
     // MARK: - properties
     
+    var isRefreshing = false
     var myTitleView: MyTitleView!
+    var kingImageString: String = "壁纸"
+    var currentPage: Int = 1
     var imageDatas: [MyImageDataModel]? {
-        willSet {
+        didSet {
             //  获取数据后，刷新collectionView数据
             self.collectionView?.reloadData()
             self.collectionView?.header.endRefreshing()
+            self.collectionView?.footer.endRefreshing()
+            self.isRefreshing = false
         }
     }
 
@@ -54,24 +59,50 @@ class MyCollectionViewController: UICollectionViewController, UICollectionViewDe
         // Add subviews
         self.view.addSubview(myTitleView)
         
-        // 下拉刷新
-        collectionView?.header = MJRefreshNormalHeader(refreshingBlock: { () -> Void in
-            // request data from 500px.com，网络不行，有真机时在测试一下
-//            MyNetworkOperation.requestDataWithURL(self, url: "https://api.500px.com/v1/photos", parameters: ["feature" : "popular", "image_size": "600", "consumer_key" : "dOx1REBdbyI3WSoXTlNqnnE9jDPV1hxExIjVVpQl"])
-            
-            // 从百度图片获取图片
-            MyNetworkOperation.requestDataWithURL(self, url: "http://image.baidu.com/channel/listjson?pn=0&rn=20&tag1=%E5%A3%81%E7%BA%B8&tag2=%E9%A3%8E%E6%99%AF&flags=%E5%85%A8%E9%83%A8", parameters: nil)
-        })
+        // 设置下拉刷新
+        collectionView?.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "pullDownToRefresh")
+        // 设置上拉加载更多
+        collectionView?.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: "pullUpToRefresh")
+        
+        // 程序一开始需先自动进入刷新从网络获取数据
         collectionView?.header.beginRefreshing()
-        
-        
     }
     
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
+    
+    // MARK: - Event Response
+    
+    func pullDownToRefresh() {
+        if !isRefreshing {
+            isRefreshing = true  // 设置collectionView正在刷新
+            
+            // request data from 500px.com，网络不行，有真机时在测试一下
+            //            MyNetworkOperation.requestDataWithURL(self, url: "https://api.500px.com/v1/photos", parameters: ["feature" : "popular", "image_size": "600", "consumer_key" : "dOx1REBdbyI3WSoXTlNqnnE9jDPV1hxExIjVVpQl"])
+            
+            // 从百度图片获取图片, 刷新永远从第一页开始取
+            MyNetworkOperation.requestDataWithURL(self, url: self.makeURLString(self.kingImageString, pageNumber: 1), parameters: nil, action: "pullDwon")
+        }
+    }
+    
+    func pullUpToRefresh() {
+        if !isRefreshing {
+            isRefreshing = true // 设置collectionView正在刷新
+            self.currentPage++  // 获取下一页
+            self.collectionView?.footer.beginRefreshing()
+            
+            
+            MyNetworkOperation.requestDataWithURL(self, url: self.makeURLString(self.kingImageString, pageNumber: self.currentPage), parameters: nil, action: "pullUp")
+        }
+    }
+    
+    // MARK: - private methods
+    func makeURLString(kindImageString: String, pageNumber: Int) -> String {
+        return "http://image.baidu.com/data/imgs?col=\(kindImageString)&tag=全部&pn=\(pageNumber)&p=channel&rn=30&from=1".stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
+    }
 
-    // MARK: UICollectionViewDataSource
+    // MARK: - UICollectionViewDataSource
 
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -89,6 +120,16 @@ class MyCollectionViewController: UICollectionViewController, UICollectionViewDe
         cell.backgroundImageView!.sd_setImageWithURL(NSURL(string: self.imageDatas![indexPath.row+1].imageURLString)!) //+1是因为第0张图片我们放在了header上面，加个header是因为我觉得会更美观
     
         return cell
+    }
+    
+    // MARK: - UICollectionView Delegate
+    
+    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        NSLog ("\(indexPath.row)")
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! MyCollectionViewCell
+        let locationTap = CGPointMake(cell.center.x, cell.center.y - collectionView.contentOffset.y) // 随着滚动cell的垂直坐标一直在增加，所以要获取准确相对于屏幕上方的y值，需减去滚动的距离
+        
+        ShowBigImageView.showImageView(cell.backgroundImageView!, startCenter: locationTap)
     }
     
     // MARK: - UICollectionViewDelegateFlowLayout
