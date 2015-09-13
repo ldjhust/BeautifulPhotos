@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import KxMenu
 
 class MyTitleView: UIView {
     // MARK: - properties
@@ -37,11 +38,13 @@ class MyTitleView: UIView {
         titleLabelRight.textAlignment = NSTextAlignment.Left
         titleLabelRight.textColor = UIColor.redColor()
         
-        menuButton = UIButton(frame: CGRectMake(UIScreen.mainScreen().bounds.width - 60, 10, 50, 30))
+        menuButton = UIButton(frame: CGRectMake(UIScreen.mainScreen().bounds.width - 105, 10, 100, 30))
         menuButton.setTitle("分类", forState: UIControlState.Normal)
         menuButton.setTitleColor(UIColor.blueColor(), forState: UIControlState.Normal)
+        menuButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Highlighted)
         menuButton.layer.borderColor = UIColor.blueColor().CGColor
         menuButton.layer.borderWidth = 1
+        menuButton.addTarget(self, action: "showMenu:", forControlEvents: UIControlEvents.TouchUpInside)
         
         bgImageView = UIImageView(frame: frame)
         let bgImagePath = NSBundle.mainBundle().pathForResource("titile_bg", ofType: "png")
@@ -63,11 +66,20 @@ class MyTitleView: UIView {
     // MARK: - Event Response
     
     func showMenu(sender: UIButton) {
-        
+//        convenience init!(_ title: String!, image: UIImage!, target: AnyObject!, action: Selector)
+        KxMenu.showMenuInView(self.superview, fromRect: sender.frame, menuItems: [KxMenuItem("明星", image: nil, target: self, action: "pushMenuItem:"),
+            KxMenuItem("美女", image: nil, target: self, action: "pushMenuItem:"),
+            KxMenuItem("壁纸", image: nil, target: self, action: "pushMenuItem:"),
+            KxMenuItem("动漫", image: nil, target: self, action: "pushMenuItem:"),
+            KxMenuItem("摄影", image: nil, target: self, action: "pushMenuItem:"),
+            KxMenuItem("设计", image: nil, target: self, action: "pushMenuItem:"),
+            KxMenuItem("宠物", image: nil, target: self, action: "pushMenuItem:"),
+            KxMenuItem("汽车", image: nil, target: self, action: "pushMenuItem:")])
     }
     
-    func pushMenuItem(sender: AnyObject) {
+    func pushMenuItem(sender: KxMenuItem) {
         
-        NSLog("\(sender)")
+        // 改变类别
+        (UIApplication.sharedApplication().keyWindow?.rootViewController as? MyCollectionViewController)?.kingImageString = sender.title
     }
 }

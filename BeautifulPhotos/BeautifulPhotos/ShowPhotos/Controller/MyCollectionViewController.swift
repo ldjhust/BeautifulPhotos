@@ -19,8 +19,16 @@ class MyCollectionViewController: UICollectionViewController, UICollectionViewDe
     
     var isRefreshing = false
     var myTitleView: MyTitleView!
-    var kingImageString: String = "壁纸"
     var currentPage: Int = 1
+    var kingImageString: String = "壁纸" {
+        
+        didSet {
+            // 更换显示的壁纸种类
+            self.currentPage = 1
+            self.imageDatas = nil
+            self.collectionView?.header.beginRefreshing()
+        }
+    }
     var imageDatas: [MyImageDataModel]? {
         didSet {
             //  获取数据后，刷新collectionView数据
