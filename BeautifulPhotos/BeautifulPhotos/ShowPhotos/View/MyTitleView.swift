@@ -14,6 +14,8 @@ class MyTitleView: UIView {
     var titleLabelLeft: UILabel!
     var titleLabelRight: UILabel!
     var titleImageView: UIImageView!
+    var menuButton: UIButton!
+    var bgImageView: UIImageView!
     
     init() {
         super.init(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44))
@@ -23,6 +25,7 @@ class MyTitleView: UIView {
         titleLabelLeft.text = "Bai"
         titleLabelLeft.textAlignment = NSTextAlignment.Right
         titleLabelLeft.textColor = UIColor.redColor()
+        
         
         titleImageView = UIImageView(frame: CGRectMake((bounds.width-30)/2, 7, 30, 30))
         let imagePathString = NSBundle.mainBundle().pathForResource("baidu_logo", ofType: "png")!
@@ -34,15 +37,37 @@ class MyTitleView: UIView {
         titleLabelRight.textAlignment = NSTextAlignment.Left
         titleLabelRight.textColor = UIColor.redColor()
         
-        self.backgroundColor = UIColor(red: 173.0/255, green: 203.0/255, blue: 249.0/255, alpha: 1)
-//        self.alpha = 0.5
+        menuButton = UIButton(frame: CGRectMake(UIScreen.mainScreen().bounds.width - 60, 10, 50, 30))
+        menuButton.setTitle("分类", forState: UIControlState.Normal)
+        menuButton.setTitleColor(UIColor.blueColor(), forState: UIControlState.Normal)
+        menuButton.layer.borderColor = UIColor.blueColor().CGColor
+        menuButton.layer.borderWidth = 1
         
+        bgImageView = UIImageView(frame: frame)
+        let bgImagePath = NSBundle.mainBundle().pathForResource("titile_bg", ofType: "png")
+        bgImageView.image = UIImage(named: bgImagePath!)
+    
+        self.backgroundColor = UIColor.whiteColor()
+        
+        self.addSubview(bgImageView)
         self.addSubview(titleLabelLeft)
         self.addSubview(titleImageView)
         self.addSubview(titleLabelRight)
+        self.addSubview(menuButton)
     }
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+    
+    // MARK: - Event Response
+    
+    func showMenu(sender: UIButton) {
+        
+    }
+    
+    func pushMenuItem(sender: AnyObject) {
+        
+        NSLog("\(sender)")
     }
 }

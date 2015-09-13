@@ -9,21 +9,23 @@
 import UIKit
 
 class ShowBigImageView: NSObject {
+    
+    // MARK: - static properties
+    
     static var backgroundView: UIView!
     static var imageView: UIImageView!
     static var imageOldCenter: CGPoint!
     static var imageOldSize: CGSize!
     static var lastScale: CGFloat = 1.0
-    static var lastPanX: CGFloat = 1.0
-    static var lastPanY: CGFloat = 1.0
+    static var lastPanX: CGFloat = 0.0
+    static var lastPanY: CGFloat = 0.0
     static var imageOrignalFrame: CGRect!
     static var canImageViewPan: Bool = false
     
+    // MARK: - class methods
+    
     class func showImageView(targetImageView: UIImageView, startCenter: CGPoint) {
         let window = UIApplication.sharedApplication().keyWindow!
-        backgroundView = UIView(frame: UIScreen.mainScreen().bounds)
-        backgroundView.backgroundColor = UIColor.blackColor()
-        backgroundView.alpha = 0
         
         imageOldCenter = startCenter  // 设置
         imageOldSize = targetImageView.frame.size
@@ -31,7 +33,10 @@ class ShowBigImageView: NSObject {
         imageView.frame.size = imageOldSize
         imageView.center = imageOldCenter
         imageView.image = targetImageView.image
-        imageView.tag = 1
+        
+        backgroundView = UIView(frame: UIScreen.mainScreen().bounds)
+        backgroundView.backgroundColor = UIColor.blackColor()
+        backgroundView.alpha = 0
         
         // 点击后返回
         var tap = UITapGestureRecognizer(target: self, action: "hideImage:")
@@ -47,7 +52,6 @@ class ShowBigImageView: NSObject {
         backgroundView.addGestureRecognizer(tap)
         backgroundView.addGestureRecognizer(pinch)
         backgroundView.addGestureRecognizer(pan)
-        
         backgroundView.addSubview(imageView)
         window.addSubview(backgroundView)
         
@@ -64,14 +68,15 @@ class ShowBigImageView: NSObject {
     // MARK: - Event Response
     
     class func hideImage(gesture: UITapGestureRecognizer) {
+        
         let view = gesture.view
-//        let imageView = view?.viewWithTag(1) as? UIImageView
         
         UIView.animateWithDuration(0.3, animations: { () -> Void in
             
-            view?.alpha = 0
             self.imageView.frame.size = self.imageOldSize
             self.imageView.center = self.imageOldCenter
+            self.imageView.alpha = 0
+            view?.alpha = 0
         }) { (finished) in
             // 返回后，移除backview
             view?.removeFromSuperview()
@@ -116,25 +121,39 @@ class ShowBigImageView: NSObject {
         
         if !self.canImageViewPan {
             // 不能拖动，不处理，恢复设置直接返回
-            self.lastPanX = 1.0
-            self.lastPanY = 1.0
+            self.lastPanX = 0.0
+            self.lastPanY = 0.0
             return
         }
         
-//        if gesture.state == UIGestureRecognizerState.Ended {
-//            // 恢复设置
-//            self.lastPanX = 1.0
-//            self.lastPanY = 1.0
-//            return
-//        }
-//        
-//        var x = gesture.locationInView(self.imageView).x - self.lastPanX + 1.0
-//        var y = gesture.locationInView(self.imageView).y - self.lastPanY + 1.0
-//        
-//        self.imageView.transform = CGAffineTransformTranslate(self.imageView.transform, x, y)
-//        self.lastPanX = x
-//        self.lastPanY = y
+        if gesture.state == UIGestureRecognizerState.Ended {
+            // 恢复设置
+            self.lastPanX = 0.0
+            self.lastPanY = 0.0
+            return
+        }
         
-        // 写的有问题，重写
+        // 相对位移
+        var x = gesture.translationInView(self.imageView).x - self.lastPanX
+        var y = gesture.translationInView(self.imageView).y - self.lastPanY
+        
+        // 图片移动到边缘时是就能再继续往后面移动了
+        if (self.imageView.frame.origin.x >= 0 && x > 0)
+            || (self.imageView.frame.origin.x + self.imageView.frame.size.width <= self.backgroundView.bounds.width && x < 0) {
+            // 图片左边缘出来了，还要往右边移动就不行了 或者图片右边缘出来了，还要往左边移动就不行了
+            NSLog ("他执行了")
+            x = 0 // 设置不移动
+        }
+        
+        if (self.imageView.frame.origin.y >= 0 && y > 0
+            || (self.imageView.frame.origin.y + self.imageView.frame.size.height <= self.backgroundView.bounds.height && y < 0)) {
+            y = 0
+        }
+        
+        self.imageView.transform = CGAffineTransformTranslate(self.imageView.transform, x, y)
+        
+        // 保存上一次的位移
+        self.lastPanX = gesture.translationInView(self.imageView).x
+        self.lastPanY = gesture.translationInView(self.imageView).y
     }
 }

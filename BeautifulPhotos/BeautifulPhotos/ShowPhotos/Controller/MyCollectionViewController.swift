@@ -52,7 +52,7 @@ class MyCollectionViewController: UICollectionViewController, UICollectionViewDe
         // Register header classes
         self.collectionView?.registerClass(MyCollectionHeaderReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: reuseHeaderIdentifier)
         
-        self.collectionView?.backgroundColor = UIColor(red: 95.0/255, green: 159.0/255, blue: 255.0/255, alpha: 1.0)
+        self.collectionView?.backgroundColor = UIColor.whiteColor()
         self.collectionView?.contentInset.top = 44 // 避免header遮住标题栏
         myTitleView = MyTitleView()
         
@@ -117,6 +117,7 @@ class MyCollectionViewController: UICollectionViewController, UICollectionViewDe
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! MyCollectionViewCell
     
         // Configure the cell
+        cell.backgroundColor = UIColor.darkGrayColor()
         cell.backgroundImageView!.sd_setImageWithURL(NSURL(string: self.imageDatas![indexPath.row+1].imageURLString)!) //+1是因为第0张图片我们放在了header上面，加个header是因为我觉得会更美观
     
         return cell
@@ -125,7 +126,7 @@ class MyCollectionViewController: UICollectionViewController, UICollectionViewDe
     // MARK: - UICollectionView Delegate
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        NSLog ("\(indexPath.row)")
+ 
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! MyCollectionViewCell
         let locationTap = CGPointMake(cell.center.x, cell.center.y - collectionView.contentOffset.y) // 随着滚动cell的垂直坐标一直在增加，所以要获取准确相对于屏幕上方的y值，需减去滚动的距离
         

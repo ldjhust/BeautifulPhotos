@@ -15,8 +15,9 @@ class MyNetworkOperation {
     class func requestDataWithURL(owner: MyCollectionViewController, url: URLStringConvertible, parameters: [String: AnyObject]?, action: String) {
         
         // 网络请求
-        Alamofire.request(Alamofire.Method.GET, url, parameters: parameters).responseJSON(options: NSJSONReadingOptions.AllowFragments) { (_, _, json: AnyObject?, error: NSError?) -> Void in
+        Alamofire.request(Alamofire.Method.GET, url, parameters: parameters).responseJSON(options: NSJSONReadingOptions.MutableContainers) { (_, _, json: AnyObject?, error: NSError?) -> Void in
             if error != nil {
+                
                 // 网络访问有错误
                 NSLog ("\(error)")
             } else {
