@@ -57,6 +57,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods-BeautifulPhotos/MJRefresh.framework'
   install_framework 'Pods-BeautifulPhotos/SDWebImage.framework'
   install_framework 'Pods-BeautifulPhotos/SwiftyJSON.framework'
+  install_framework 'Pods-BeautifulPhotos/Toast.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods-BeautifulPhotos/Alamofire.framework'
@@ -64,4 +65,5 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods-BeautifulPhotos/MJRefresh.framework'
   install_framework 'Pods-BeautifulPhotos/SDWebImage.framework'
   install_framework 'Pods-BeautifulPhotos/SwiftyJSON.framework'
+  install_framework 'Pods-BeautifulPhotos/Toast.framework'
 fi

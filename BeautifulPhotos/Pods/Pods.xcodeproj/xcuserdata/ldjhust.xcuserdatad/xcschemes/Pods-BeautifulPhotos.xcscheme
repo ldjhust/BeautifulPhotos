@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3327CF969CF91451BFC00706"
+               BlueprintIdentifier = "FFC1B5A5F896653C84A1F923"
                BuildableName = "Pods_BeautifulPhotos.framework"
                BlueprintName = "Pods-BeautifulPhotos"
                ReferencedContainer = "container:Pods.xcodeproj">

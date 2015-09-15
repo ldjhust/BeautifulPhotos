@@ -7,12 +7,15 @@
 //
 
 import UIKit
+import KxMenu
+import Toast
 
 class ShowBigImageView: NSObject {
     
     // MARK: - static properties
     
     static var backgroundView: UIView!
+    static var saveBtn: UIButton!
     static var imageView: UIImageView!
     static var imageOldCenter: CGPoint!
     static var imageOldSize: CGSize!
@@ -34,6 +37,11 @@ class ShowBigImageView: NSObject {
         imageView.center = imageOldCenter
         imageView.image = targetImageView.image
         
+        saveBtn = UIButton(frame: CGRectMake(UIScreen.mainScreen().bounds.width - 60, UIScreen.mainScreen().bounds.height - 40, 50, 30))
+        saveBtn.setTitle("保存", forState: UIControlState.Normal)
+        saveBtn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        saveBtn.addTarget(self, action: "saveImage:", forControlEvents: UIControlEvents.TouchUpInside)
+        
         backgroundView = UIView(frame: UIScreen.mainScreen().bounds)
         backgroundView.backgroundColor = UIColor.blackColor()
         backgroundView.alpha = 0
@@ -53,6 +61,7 @@ class ShowBigImageView: NSObject {
         backgroundView.addGestureRecognizer(pinch)
         backgroundView.addGestureRecognizer(pan)
         backgroundView.addSubview(imageView)
+        backgroundView.addSubview(saveBtn)
         window.addSubview(backgroundView)
         
         UIView.animateWithDuration(0.3) {
@@ -155,5 +164,20 @@ class ShowBigImageView: NSObject {
         // 保存上一次的位移
         self.lastPanX = gesture.translationInView(self.imageView).x
         self.lastPanY = gesture.translationInView(self.imageView).y
+    }
+    
+    class func saveImage(sender: UIButton) {
+
+        // 保存图片值相册
+        UIImageWriteToSavedPhotosAlbum(imageView.image!, self, "image:didFinishSavingWithError:contextInfo:", nil)
+    }
+    
+    class func image(image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: AnyObject) {
+        
+        if error == nil {
+            self.backgroundView.makeToast("已保存至图库")
+        } else {
+            self.backgroundView.makeToast("保存失败")
+        }
     }
 }
