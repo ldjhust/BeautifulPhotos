@@ -53,6 +53,7 @@ code_sign_if_enabled() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods-BeautifulPhotos/Alamofire.framework'
+  install_framework 'Pods-BeautifulPhotos/BDKNotifyHUD.framework'
   install_framework 'Pods-BeautifulPhotos/KxMenu.framework'
   install_framework 'Pods-BeautifulPhotos/MJRefresh.framework'
   install_framework 'Pods-BeautifulPhotos/SDWebImage.framework'
@@ -60,6 +61,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods-BeautifulPhotos/Alamofire.framework'
+  install_framework 'Pods-BeautifulPhotos/BDKNotifyHUD.framework'
   install_framework 'Pods-BeautifulPhotos/KxMenu.framework'
   install_framework 'Pods-BeautifulPhotos/MJRefresh.framework'
   install_framework 'Pods-BeautifulPhotos/SDWebImage.framework'

@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>BDKNotifyHUD.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>KxMenu.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,7 +42,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>285120CF5C96549364A17289D2823BB2</key>
+		<key>0D0CEB3786E586C0197CE2620759B268</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1DA5414A42C86DDA855BEE23EF0070E8</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>277EC20952511C91B1E33AABAA281C15</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6CFB840B413A8DC6E4D2FF1A3AFBB935</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -47,22 +67,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9887EBBFEEF5D69EB3FFD1B6773A76EF</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B07F0D1501A49326CE0F061EA3492F63</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>B9A04D3C9B208813656510FDA8ADAE02</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B9BBBE22E153DFBD6743799EFE46E059</key>
+		<key>DDAE1D2272A15E89734B47C3ADCA3686</key>
 		<dict>
 			<key>primary</key>
 			<true/>

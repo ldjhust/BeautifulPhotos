@@ -19,6 +19,7 @@ class MyCollectionViewController: UICollectionViewController, UICollectionViewDe
     
     var isRefreshing = false
     var myTitleView: MyTitleView!
+    var detailImageView: ShowBigImageView!
     var currentPage: Int = 1
     var kingImageString: String = "壁纸" {
         
@@ -138,7 +139,9 @@ class MyCollectionViewController: UICollectionViewController, UICollectionViewDe
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! MyCollectionViewCell
         let locationTap = CGPointMake(cell.center.x, cell.center.y - collectionView.contentOffset.y) // 随着滚动cell的垂直坐标一直在增加，所以要获取准确相对于屏幕上方的y值，需减去滚动的距离
         
-        ShowBigImageView.showImageView(cell.backgroundImageView!, startCenter: locationTap)
+        self.detailImageView = nil // 释放之前的值
+        self.detailImageView = ShowBigImageView()
+        self.detailImageView.showImageView(cell.backgroundImageView!, startCenter: locationTap)
     }
     
     // MARK: - UICollectionViewDelegateFlowLayout

@@ -7,25 +7,25 @@
 //
 
 import UIKit
+import KxMenu
+import BDKNotifyHUD
 
-class ShowBigImageView: NSObject {
+class ShowBigImageView: UIView, UIScrollViewDelegate {
     
     // MARK: - static properties
     
-    static var backgroundView: UIView!
-    static var imageView: UIImageView!
-    static var imageOldCenter: CGPoint!
-    static var imageOldSize: CGSize!
-    static var lastScale: CGFloat = 1.0
-    static var lastPanX: CGFloat = 0.0
-    static var lastPanY: CGFloat = 0.0
-    static var imageOrignalFrame: CGRect!
-    static var canImageViewPan: Bool = false
+    var backgroundView: UIScrollView!
+    var saveBtn: UIButton!
+    var imageView: UIImageView!
+    var imageOldCenter: CGPoint!
+    var imageOldSize: CGSize!
+    var imageOrignalFrame: CGRect!
+    var windowKey: UIWindow!
     
-    // MARK: - class methods
+    // MARK: - Object methods
     
-    class func showImageView(targetImageView: UIImageView, startCenter: CGPoint) {
-        let window = UIApplication.sharedApplication().keyWindow!
+    func showImageView(targetImageView: UIImageView, startCenter: CGPoint) {
+        windowKey = UIApplication.sharedApplication().keyWindow!
         
         imageOldCenter = startCenter  // 设置
         imageOldSize = targetImageView.frame.size
@@ -34,9 +34,20 @@ class ShowBigImageView: NSObject {
         imageView.center = imageOldCenter
         imageView.image = targetImageView.image
         
-        backgroundView = UIView(frame: UIScreen.mainScreen().bounds)
+        saveBtn = UIButton(frame: CGRectMake(UIScreen.mainScreen().bounds.width - 50, UIScreen.mainScreen().bounds.height - 50, 40, 40))
+        saveBtn.setBackgroundImage(UIImage(named: "cm2_list_detail_icn_dld"), forState: UIControlState.Normal)
+        saveBtn.addTarget(self, action: "saveImage:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        backgroundView = UIScrollView(frame: UIScreen.mainScreen().bounds)
         backgroundView.backgroundColor = UIColor.blackColor()
         backgroundView.alpha = 0
+        backgroundView.minimumZoomScale = 1.0
+        backgroundView.maximumZoomScale = 3.0
+        backgroundView.showsHorizontalScrollIndicator = false
+        backgroundView.showsVerticalScrollIndicator = false
+        backgroundView.bounces = true
+        backgroundView.bouncesZoom = true
+        backgroundView.delegate = self
         
         // 点击后返回
         var tap = UITapGestureRecognizer(target: self, action: "hideImage:")
@@ -50,10 +61,9 @@ class ShowBigImageView: NSObject {
         var pan = UIPanGestureRecognizer(target: self, action: "panImage:")
         
         backgroundView.addGestureRecognizer(tap)
-        backgroundView.addGestureRecognizer(pinch)
-        backgroundView.addGestureRecognizer(pan)
         backgroundView.addSubview(imageView)
-        window.addSubview(backgroundView)
+        windowKey.addSubview(backgroundView)
+        windowKey.addSubview(saveBtn)
         
         UIView.animateWithDuration(0.3) {
             
@@ -67,7 +77,7 @@ class ShowBigImageView: NSObject {
     
     // MARK: - Event Response
     
-    class func hideImage(gesture: UITapGestureRecognizer) {
+    func hideImage(gesture: UITapGestureRecognizer) {
         
         let view = gesture.view
         
@@ -83,77 +93,48 @@ class ShowBigImageView: NSObject {
         }
     }
     
-    class func pinchImage(gesture: UIPinchGestureRecognizer) {
-        
-        // 缩放倍数不设下限，设置上限为原尺寸的3倍
-        if self.imageView.frame.size.width / self.imageOrignalFrame.size.width > 3 && gesture.scale > 1 {
-            // 超过3倍并且依然做放大的手势不处理，直接返回
-            lastScale = 1.0 // 恢复缩放倍数
-            self.canImageViewPan = true // 放大情况下，图片可以被移动
-            return
-        }
-        
-        if gesture.state == UIGestureRecognizerState.Ended {
-            lastScale = 1.0  // 恢复缩放倍数
-            if self.imageView.frame.size.width < self.imageOrignalFrame.size.width {
-                // 放小的，结束后自动回到原来的大小
-                UIView.animateWithDuration(0.3) {
-                    
-                    self.imageView.frame = self.imageOrignalFrame
-                }
-                
-                // 这种场景图片不能被拖动，因为没有必要
-                self.canImageViewPan = false
-            } else {
-                // 图片在放大的场景下可以被拖动
-                self.canImageViewPan = true
-            }
-            
-            return
-        }
-        
-        gesture.scale = gesture.scale - lastScale + 1 // 每次放缩都是基于最开始的图片的尺寸，不然缩放速度不对
-        imageView.transform = CGAffineTransformScale(imageView.transform, gesture.scale, gesture.scale)
-        lastScale = gesture.scale
+    func saveImage(sender: UIButton) {
+
+        // 保存图片值相册
+        UIImageWriteToSavedPhotosAlbum(imageView.image!, self, "image:didFinishSavingWithError:contextInfo:", nil)
     }
     
-    class func panImage(gesture: UIPanGestureRecognizer) {
+    func image(image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: AnyObject) {
         
-        if !self.canImageViewPan {
-            // 不能拖动，不处理，恢复设置直接返回
-            self.lastPanX = 0.0
-            self.lastPanY = 0.0
-            return
+        if error == nil {
+            var hud = BDKNotifyHUD.notifyHUDWithImage(UIImage(named: "Checkmark")!, text: "保存成功") as! BDKNotifyHUD
+            hud.center = windowKey.center
+            self.windowKey.addSubview(hud)
+            hud.presentWithDuration(1.0, speed: 0.5, inView: self.windowKey) {
+                hud.removeFromSuperview()
+            }
+        } else {
+            var hud = BDKNotifyHUD.notifyHUDWithImage(nil, text: "保存失败") as! BDKNotifyHUD
+            hud.center = windowKey.center
+            self.windowKey.addSubview(hud)
+            hud.presentWithDuration(1.0, speed: 0.5, inView: self.windowKey) {
+                hud.removeFromSuperview()
+            }
         }
+    }
+    
+    // MARK: - UIScrollViewDelegate
+    
+    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+
+        return self.imageView
+    }
+    
+    func scrollViewDidZoom(scrollView: UIScrollView) {
         
-        if gesture.state == UIGestureRecognizerState.Ended {
-            // 恢复设置
-            self.lastPanX = 0.0
-            self.lastPanY = 0.0
-            return
-        }
+        // 在这里面保证图片始终处于content的中心位置
+        var xcenter = scrollView.center.x
+        var ycenter = scrollView.center.y
         
-        // 相对位移
-        var x = gesture.translationInView(self.imageView).x - self.lastPanX
-        var y = gesture.translationInView(self.imageView).y - self.lastPanY
+        // 如果当前的contentSize的width是否大于原scrollView的contentSize，如果大于，设置imageView中心x为contentSize的一半，否则x继续为屏幕中心即可，对y同理
+        xcenter = scrollView.contentSize.width > scrollView.frame.size.width ? scrollView.contentSize.width/2 : xcenter
+        ycenter = scrollView.contentSize.height > scrollView.frame.size.height ? scrollView.contentSize.height/2 : ycenter
         
-        // 图片移动到边缘时是就能再继续往后面移动了
-        if (self.imageView.frame.origin.x >= 0 && x > 0)
-            || (self.imageView.frame.origin.x + self.imageView.frame.size.width <= self.backgroundView.bounds.width && x < 0) {
-            // 图片左边缘出来了，还要往右边移动就不行了 或者图片右边缘出来了，还要往左边移动就不行了
-            NSLog ("他执行了")
-            x = 0 // 设置不移动
-        }
-        
-        if (self.imageView.frame.origin.y >= 0 && y > 0
-            || (self.imageView.frame.origin.y + self.imageView.frame.size.height <= self.backgroundView.bounds.height && y < 0)) {
-            y = 0
-        }
-        
-        self.imageView.transform = CGAffineTransformTranslate(self.imageView.transform, x, y)
-        
-        // 保存上一次的位移
-        self.lastPanX = gesture.translationInView(self.imageView).x
-        self.lastPanY = gesture.translationInView(self.imageView).y
+        self.imageView.center = CGPointMake(xcenter, ycenter)
     }
 }
