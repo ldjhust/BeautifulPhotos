@@ -1,27 +1,27 @@
 PODS:
   - Alamofire (1.3.1)
+  - BDKNotifyHUD (1.1.0)
   - KxMenu (1)
   - MJRefresh (2.4.8)
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
   - SwiftyJSON (2.2.1)
-  - Toast (2.4)
 
 DEPENDENCIES:
   - Alamofire (= 1.3.1)
+  - BDKNotifyHUD (= 1.1.0)
   - KxMenu (~> 1)
   - MJRefresh (= 2.4.8)
   - SDWebImage (= 3.7.3)
   - SwiftyJSON (= 2.2.1)
-  - Toast (~> 2.4)
 
 SPEC CHECKSUMS:
   Alamofire: e4ab637e3195b645c814b87a652373439e59f2a4
+  BDKNotifyHUD: 6ae3b0e8e93c709af63e31ab5c8c8011ac3efb8a
   KxMenu: c025365712f55fa99feb7830fbb7dea0e912be72
   MJRefresh: 887c9ee5ff155533d7d9c20098bebb7b847b2fcb
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SwiftyJSON: ae2d0a3d68025d136602a33c4ee215091ced3e33
-  Toast: 0773b8fc0e97352ca6054517bec7ebdd4110029d
 
 COCOAPODS: 0.38.2

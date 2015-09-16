@@ -1,0 +1,1 @@
+BDKNOTIFYHUD_OTHER_LDFLAGS = -framework "QuartzCore"
